@@ -44,7 +44,7 @@ public class DummyStreamingApp {
                             if (reddit_top != null) {
                                 List<String> words1 = Arrays.asList(reddit_top.split(" "));
                                 List<String> words2 = Arrays.asList(twitter_top.split(" "));
-                                if (words1.containsAll(words2) && words2.containsAll(words1)) {
+                                if (words2.containsAll(words1)) {
                                     logger.info("Reddit=" + reddit_top + ",Twitter=[" + twitter_top + "]");
                                     return "Reddit=" + reddit_top + ",Twitter=[" + twitter_top + "]";
                                 } else {
