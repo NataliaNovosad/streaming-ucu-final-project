@@ -13,7 +13,7 @@ import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 
 // delete_me - for testing purposes
-object DummyDataProducer {
+class DummyDataProducer {
 
   val logger: Logger = LoggerFactory.getLogger(getClass)
 

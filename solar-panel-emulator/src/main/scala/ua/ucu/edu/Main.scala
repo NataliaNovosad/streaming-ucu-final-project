@@ -1,8 +1,17 @@
 package ua.ucu.edu
 
-import ua.ucu.edu.kafka.DummyDataProducer
+import kafka.{DummyDataProducer}
+
+class User(num: Int) extends Thread {
+  override def run() {
+    val producer = new DummyDataProducer()
+    producer.pushTestData("/reddit_comments_data" + num + ".csv")
+  }
+}
 
 object Main extends App {
-
-  DummyDataProducer.pushTestData("/reddit_comments_data0.csv")
+  for (i <- 0 to 4) {
+    val thread = new User(i)
+    thread.start()
+  }
 }
