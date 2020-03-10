@@ -27,10 +27,20 @@ To deploy local environment and start testing - simply run `docker-compose up` f
 
    On the first run, you will se topic not found errors in logs - thats because KAFKA_AUTO_CREATE_TOPICS_ENABLE is turned off - you should create topic with appropriate replication factor and number of partitions (see below), while not stopping running cluster.
 
-Example:
+Create the following topics:
 ```
-docker run --net=host --rm confluentinc/cp-kafka:5.1.0 kafka-topics --create --topic test_topic_out --partitions 4 --replication-factor 1 --if-not-exists --zookeeper localhost:2181
+docker run --net=host --rm confluentinc/cp-kafka:5.1.0 kafka-topics --create --topic twitter-topic --partitions 4 --replication-factor 1 --if-not-exists --zookeeper localhost:2181
 ```
+
+```
+docker run --net=host --rm confluentinc/cp-kafka:5.1.0 kafka-topics --create --topic reddit-topic --partitions 4 --replication-factor 1 --if-not-exists --zookeeper localhost:2181
+```
+
+```
+docker run --net=host --rm confluentinc/cp-kafka:5.1.0 kafka-topics --create --topic test-topic-out --partitions 4 --replication-factor 1 --if-not-exists --zookeeper localhost:2181
+```
+Then stop `docker-compose up` and run it again, you should see logs with messages from twitter and reddit.
+
 
 ### Staging
 

@@ -99,5 +99,5 @@ lazy val streaming_app = (project in file("streaming-app"))
       // your additional dependencies go here
     ),
     dockerSettings(),
-    mainClass in assembly := Some("ua.ucu.edu.StreamingApp")
+    mainClass in assembly := Some("ua.ucu.edu.DummyStreamingApp")
   )

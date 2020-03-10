@@ -20,7 +20,7 @@ object DummyDataProducer {
   // This is just for testing purposes
   def pushTestData(file:String): Unit = {
     val BrokerList: String = System.getenv(Config.KafkaBrokers)
-    val Topic = "sensor-data"
+    val Topic = "reddit-topic"
 
     val props = new Properties()
     props.put("bootstrap.servers", BrokerList)

@@ -43,7 +43,7 @@ object TwitterStream {
         implicit val formats: DefaultFormats.type = DefaultFormats
         val jsonString = write(jsonObjectTwitter)
         Thread.sleep(1000)
-        producer.writeToKafka("weather_data", jsonString)
+        producer.writeToKafka("twitter-topic", jsonString)
 
         //        println("user:", "name: " + status.getUser.getName, "ScreenName: " + status.getUser.getScreenName, "Location: " + status.getUser.getLocation, "FollowersCount: " + status.getUser.getFollowersCount, "\n")
         //        println("places:", "country: " + status.getPlace.getCountry, "StreetAddress:" + status.getPlace.getStreetAddress, "PlaceType: " + status.getPlace.getPlaceType, "\n")

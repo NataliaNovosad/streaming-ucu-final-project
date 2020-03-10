@@ -14,9 +14,9 @@ import java.util.Properties;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-public class StreamingApp {
+public class DummyStreamingApp {
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(StreamingApp.class);
+        Logger logger = LoggerFactory.getLogger(DummyStreamingApp.class);
 
         Properties config = new Properties();
         //config.put(StreamsConfig.APPLICATION_ID_CONFIG, "twitter-reddit-enricher");
@@ -33,10 +33,10 @@ public class StreamingApp {
 
 //        GlobalKTable<String, String> reddit_topic = builder.globalTable("reddit");
 
-        KStream<String, String> twitter_topic = builder.stream("weather_data");
+        KStream<String, String> twitter_topic = builder.stream("twitter-topic");
 //        KStream<String, String> reddit_topic = builder.stream("reddit");
 
-        KTable<String, String> reddit_table = builder.table("sensor-data");
+        KTable<String, String> reddit_table = builder.table("reddit-topic");
 
         KStream<String, String> TwitterReddit =
                 twitter_topic.leftJoin(reddit_table,
@@ -76,7 +76,7 @@ public class StreamingApp {
 //                            }
 //                        }
                 );
-        TwitterReddit.to("test_topic_out");
+        TwitterReddit.to("test-topic-out");
 
         KafkaStreams streams = new KafkaStreams(builder.build(), config);
         streams.cleanUp();
