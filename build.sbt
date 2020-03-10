@@ -83,6 +83,8 @@ lazy val weather_provider = (project in file("weather-provider"))
   .settings(
     name := "weather-provider",
     libraryDependencies ++= commonDependencies ++ akkaDependencies ++ Seq(
+      "org.twitter4j" % "twitter4j-stream" % "4.0.0",
+      "net.liftweb" %% "lift-json" % "3.4.1"
       // your additional dependencies go here
     ),
     dockerSettings()

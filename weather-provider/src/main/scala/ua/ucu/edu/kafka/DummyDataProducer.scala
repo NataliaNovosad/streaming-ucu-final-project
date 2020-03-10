@@ -6,13 +6,13 @@ import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecor
 import org.slf4j.{Logger, LoggerFactory}
 
 // delete_me - for testing purposes
-object DummyDataProducer {
+class Producer {
 
   val logger: Logger = LoggerFactory.getLogger(getClass)
 
-  def pushTestData(): Unit = {
+  def writeToKafka(topic: String, record: String): Unit = {
     val BrokerList: String = System.getenv(Config.KafkaBrokers)
-    val Topic = "weather_data"
+
     val props = new Properties()
     props.put("bootstrap.servers", BrokerList)
     props.put("client.id", "weather-provider")
@@ -23,17 +23,11 @@ object DummyDataProducer {
 
     val producer = new KafkaProducer[String, String](props)
 
-    val testMsg = "hot weather"
-
-    while (true) {
-      Thread.sleep(1000)
-      logger.info(s"[$Topic] $testMsg")
-      val data = new ProducerRecord[String, String](Topic, testMsg)
-      producer.send(data, (metadata: RecordMetadata, exception: Exception) => {
+    logger.info(s"[$topic] $record ")
+    val data = new ProducerRecord[String, String](topic, "key", record)
+    producer.send(data, (metadata: RecordMetadata, exception: Exception) => {
         logger.info(metadata.toString, exception)
-      })
-    }
-
+    })
     producer.close()
   }
 }

@@ -1,7 +1,7 @@
 package ua.ucu.edu
 
-import ua.ucu.edu.kafka.DummyDataProducer
-
+//import ua.ucu.edu.kafka.DummyDataProducer
+import ua.ucu.edu.provider._
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration
@@ -13,10 +13,12 @@ object Main extends App {
 
   logger.info("======== Weather Provider App Init ========")
 
+
+  TwitterStream.run()
   import duration._
 
   //scheduler.schedule(5 seconds, 10 seconds,
-  new Runnable {
+/*  new Runnable {
     override def run(): Unit = {
       logger.debug("weather request")
       // ???
@@ -26,5 +28,5 @@ object Main extends App {
   //)
 
   // for testing purposes only
-  DummyDataProducer.pushTestData()
+  DummyDataProducer.pushTestData()*/
 }
