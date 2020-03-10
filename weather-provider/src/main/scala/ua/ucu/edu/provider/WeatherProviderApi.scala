@@ -1,30 +1,13 @@
 package ua.ucu.edu.provider
 
-//import ua.ucu.edu.model._
+import ua.ucu.edu.model._
+import ua.ucu.edu.model.Place
 import ua.ucu.edu.kafka._
-
-/*
-trait WeatherProviderApi {
-
-  def weatherAtLocation(location: Location): WeatherData
-}
-*/
-
-
-import java.util.Date
 
 import net.liftweb.json.DefaultFormats
 import net.liftweb.json.Serialization.write
 import twitter4j._
 import twitter4j.conf.Configuration
-
-case class TweetUser(name: String, screenName: String, location: String, followersCount: Int) {}
-
-case class Place(country: String, streetAddress: String, placeType: String) {}
-
-case class General(createdAt: Date, tweetText: String, tweetTextLength: Int, source: String) {}
-
-case class JsonObjectTwitter(user: TweetUser, places: Place, general: General) {}
 
 
 object TwitterStream {
@@ -59,7 +42,7 @@ object TwitterStream {
 
         implicit val formats: DefaultFormats.type = DefaultFormats
         val jsonString = write(jsonObjectTwitter)
-
+        Thread.sleep(1000)
         producer.writeToKafka("weather_data", jsonString)
 
         //        println("user:", "name: " + status.getUser.getName, "ScreenName: " + status.getUser.getScreenName, "Location: " + status.getUser.getLocation, "FollowersCount: " + status.getUser.getFollowersCount, "\n")

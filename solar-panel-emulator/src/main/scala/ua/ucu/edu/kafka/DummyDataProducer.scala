@@ -7,6 +7,10 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.io.Source
+import ua.ucu.edu.model.RedditComment
+
+import net.liftweb.json.DefaultFormats
+import net.liftweb.json.Serialization.write
 
 // delete_me - for testing purposes
 object DummyDataProducer {
@@ -31,15 +35,16 @@ object DummyDataProducer {
     try {
       val filename = getClass.getResourceAsStream(file) //"./src/main/resources/reddit_comments_data0.csv"
       val lines = Source.fromInputStream(filename).getLines()
-      //while (true) {
       for (line <- lines) {
         val splited = line.split("&")
-        Thread.sleep(10000)
+        Thread.sleep(1000)
         splited.length match {
           case 4 => {
-            logger.info(s"[$Topic] $line")
-            val comment = "{'subreddit':'" + splited(1) + "','author':'" + splited(2) + "','comment':'" + splited(3) + "','resource':'" + file.slice(file.length - 9, file.length) + "'}"
-            val data = new ProducerRecord[String, String](Topic, splited(0), comment)
+            val comment = RedditComment(splited(1),splited(2),splited(3),file.slice(file.length - 9, file.length))
+            implicit val formats = DefaultFormats
+            val jsonString = write(comment)
+            logger.info(s"[$Topic] $jsonString")
+            val data = new ProducerRecord[String, String](Topic, splited(0), jsonString)
             producer.send(data)
           }
           case _ => {}
