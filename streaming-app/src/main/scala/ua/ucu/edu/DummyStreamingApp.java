@@ -19,22 +19,14 @@ public class DummyStreamingApp {
         Logger logger = LoggerFactory.getLogger(DummyStreamingApp.class);
 
         Properties config = new Properties();
-        //config.put(StreamsConfig.APPLICATION_ID_CONFIG, "twitter-reddit-enricher");
-        //config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, "streaming_app");
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, System.getenv("KAFKA_BROKERS"));
-        //config.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, Long.box(5 * 1000));
-        //config.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, Long.box(0));
         StreamsBuilder builder = new StreamsBuilder();
 
-//        GlobalKTable<String, String> reddit_topic = builder.globalTable("reddit");
-
         KStream<String, String> twitter_topic = builder.stream("twitter-topic");
-//        KStream<String, String> reddit_topic = builder.stream("reddit");
 
         KTable<String, String> reddit_table = builder.table("reddit-topic");
 
@@ -56,25 +48,6 @@ public class DummyStreamingApp {
                                 return "Twitter=" + twitter_top + ",Reddit=null";
                             }
                         }
-//                        (key, value) -> key,
-//                        (twitter_top, reddit_top) -> {
-////                            System.out.println(twitter_top);
-////                            System.out.println(reddit_top);
-////                            System.out.println("=================");
-//
-//
-//                            if (reddit_top != null) {
-//                                List<String> words1 = Arrays.asList(reddit_top.split(" "));
-//                                List<String> words2 = Arrays.asList(twitter_top.split(" "));
-//                                if (words1.containsAll(words2) && words2.containsAll(words1)) {
-//                                    return "Reddit=" + reddit_top + ",Twitter=[" + twitter_top + "]";
-//                                } else {
-//                                    return "Reddit=" + reddit_top + ",Twitter=null";
-//                                }
-//                            } else {
-//                                return "Twitter=" + twitter_top + ",Reddit=null";
-//                            }
-//                        }
                 );
         TwitterReddit.to("test-topic-out");
 

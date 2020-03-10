@@ -41,7 +41,6 @@ docker run --net=host --rm confluentinc/cp-kafka:5.1.0 kafka-topics --create --t
 ```
 Then stop `docker-compose up` and run it again, you should see logs with messages from twitter and reddit.
 
-
 ### Staging
 
 #### Configure
@@ -248,20 +247,15 @@ kafkacat -L -b localhost
 
 ## solar-panel-emulator
 
-This service is responsible for generating solar plant device data - readings from various kinds of sensors.
-In the simplest variant this can be just a bunch of kafka producers. 
+This service is responsible for generating reddit real-time comments. In fact, it reads the csv files in 5 streams emulating five different sources.
 
 ## weather-provider
 
-You should provide implementation for scheduled updates to the weather topic fetching from any freely available weather apis - https://dzone.com/articles/4-free-weather-providers-api-to-develop-weather-ap-1
-
-Or you can use ready-to-use wrapper for scala - https://github.com/snowplow/scala-weather
+This service uses Twitter API to get the real-time tweets. 
 
 ## streaming-app
 
-Kafka Streams application. The main part of the pipeline - joining and enriching two streams of data. 
-
-You should consider KStream / KTable decision while designing a pipeline.
+Joins KStream (Twitter data) with the KTable (Reddit data) 
 
 # Scaling streaming app
 
